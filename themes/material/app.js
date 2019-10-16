@@ -67,13 +67,13 @@ function list(path){
 	  <ul class="mdui-list"> 
 	   <li class="mdui-list-item th"> 
 	    <div class="mdui-col-xs-12 mdui-col-sm-7">
-	     文件
+	     File
 	    </div> 
 	    <div class="mdui-col-sm-3 mdui-text-right">
-	     修改时间
+	     Modified
 	    </div> 
 	    <div class="mdui-col-sm-2 mdui-text-right">
-	     大小
+	     Size
 	    </div> 
 	    </li> 
 	  </ul> 
@@ -175,7 +175,7 @@ function get_file(path, file, callback){
 
 
 
-// 文件展示 ?a=view
+// File展示 ?a=view
 function file(path){
 	var name = path.split('/').pop();
 	var ext = name.split('.').pop().toLowerCase().replace(`?a=view`,"");
@@ -192,7 +192,7 @@ function file(path){
 	}
 }
 
-// 文件展示 |html|php|css|go|java|js|json|txt|sh|md|
+// File展示 |html|php|css|go|java|js|json|txt|sh|md|
 function file_code(path){
 	var type = {
 		"html":"html",
@@ -214,7 +214,7 @@ function file_code(path){
 <pre id="editor" ></pre>
 </div>
 <div class="mdui-textfield">
-	<label class="mdui-textfield-label">下载地址</label>
+	<label class="mdui-textfield-label">Download</label>
 	<input class="mdui-textfield-input" type="text" value="${href}"/>
 </div>
 <a href="${href}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
@@ -245,7 +245,7 @@ function file_code(path){
 	});
 }
 
-// 文件展示 mp4
+// File展示 mp4
 function file_video(path){
 	var url = window.location.origin + path;
 	var content = `
@@ -257,11 +257,11 @@ function file_video(path){
 	<br>
 	<!-- 固定标签 -->
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">下载地址</label>
+	  <label class="mdui-textfield-label">Download</label>
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>
 	</div>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">引用地址</label>
+	  <label class="mdui-textfield-label">URL</label>
 	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
 	</div>
 </div>
@@ -279,15 +279,15 @@ function file_image(path){
 	<img class="mdui-img-fluid" src="${url}"/>
 	<br>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">下载地址</label>
+	  <label class="mdui-textfield-label">Download</label>
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>
 	</div>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">HTML 引用地址</label>
+	  <label class="mdui-textfield-label">HTML URL</label>
 	  <input class="mdui-textfield-input" type="text" value="<img src='${url}' />"/>
 	</div>
         <div class="mdui-textfield">
-	  <label class="mdui-textfield-label">Markdown 引用地址</label>
+	  <label class="mdui-textfield-label">Markdown URL</label>
 	  <input class="mdui-textfield-input" type="text" value="![](${url})"/>
 	</div>
         <br>

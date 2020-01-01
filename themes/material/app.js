@@ -1,9 +1,9 @@
-// 在head 中 加载 必要静态
+// Load necessary stylesheet in head
 document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">');
-// markdown支持
+// Markdown support
 document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@9.1.0/dist/markdown-it.min.js"></script>');
 document.write('<style>.mdui-appbar .mdui-toolbar{height:56px;font-size:1pc}.mdui-toolbar>*{padding:0 6px;margin:0 2px}.mdui-toolbar>i{opacity:.5}.mdui-toolbar>.mdui-typo-headline{padding:0 1pc 0 0}.mdui-toolbar>i{padding:0}.mdui-toolbar>a:hover,a.active,a.mdui-typo-headline{opacity:1}.mdui-container{max-width:980px}.mdui-list-item{transition:none}.mdui-list>.th{background-color:initial}.mdui-list-item>a{width:100%;line-height:3pc}.mdui-list-item{margin:2px 0;padding:0}.mdui-toolbar>a:last-child{opacity:1}@media screen and (max-width:980px){.mdui-list-item .mdui-text-right{display:none}.mdui-container{width:100%!important;margin:0}.mdui-toolbar>.mdui-typo-headline,.mdui-toolbar>a:last-child,.mdui-toolbar>i:first-child{display:block}}</style>');
-// 初始化页面，并载入必要资源
+// Initialize the page and load the necessary resources
 function init(){
     document.siteName = $('title').html();
     $('body').addClass("mdui-theme-primary-blue-grey mdui-theme-accent-blue");
@@ -32,13 +32,13 @@ function render(path){
 }
 
 
-// 渲染 title
+// Render title
 function title(path){
     path = decodeURI(path);
     $('title').html(document.siteName+' - '+path);
 }
 
-// 渲染导航栏
+// Render navigation bar
 function nav(path){
     var html = "";
     html += `<a href="/" class="mdui-typo-headline folder">${document.siteName}</a>`;
@@ -58,7 +58,7 @@ function nav(path){
     $('#nav').html(html);
 }
 
-// 渲染文件列表
+// Render file list
 function list(path){
 	var content = `
 	<div id="head_md" class="mdui-typo" style="display:none;padding: 20px 0;"></div>
@@ -115,7 +115,7 @@ function list_files(path,files){
             item['size'] = "";
         }
 
-        item['modifiedTime'] = utc2beijing(item['modifiedTime']);
+        item['modifiedTime'] = utc2melbourne(item['modifiedTime']);
         item['size'] = formatFileSize(item['size']);
         if(item['mimeType'] == 'application/vnd.google-apps.folder'){
             html +=`<li class="mdui-list-item mdui-ripple"><a href="${p}" class="folder">
@@ -175,7 +175,7 @@ function get_file(path, file, callback){
 
 
 
-// File展示 ?a=view
+// File display ?a=view
 function file(path){
 	var name = path.split('/').pop();
 	var ext = name.split('.').pop().toLowerCase().replace(`?a=view`,"");
@@ -192,7 +192,7 @@ function file(path){
 	}
 }
 
-// File展示 |html|php|css|go|java|js|json|txt|sh|md|
+// File display |html|php|css|go|java|js|json|txt|sh|md|
 function file_code(path){
 	var type = {
 		"html":"html",
@@ -245,7 +245,7 @@ function file_code(path){
 	});
 }
 
-// File展示 mp4
+// File display mp4
 function file_video(path){
 	var url = window.location.origin + path;
 	var content = `
@@ -255,7 +255,7 @@ function file_video(path){
 	  <source src="${url}" type="video/mp4">
 	</video>
 	<br>
-	<!-- 固定标签 -->
+	<!-- Fixed label -->
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Download</label>
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>
@@ -283,11 +283,11 @@ function file_image(path){
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>
 	</div>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">HTML URL</label>
+	  <label class="mdui-textfield-label">HTML Embed</label>
 	  <input class="mdui-textfield-input" type="text" value="<img src='${url}' />"/>
 	</div>
         <div class="mdui-textfield">
-	  <label class="mdui-textfield-label">Markdown URL</label>
+	  <label class="mdui-textfield-label">Markdown Embed</label>
 	  <input class="mdui-textfield-input" type="text" value="![](${url})"/>
 	</div>
         <br>
@@ -298,24 +298,24 @@ function file_image(path){
 }
 
 
-//时间转换
-function utc2beijing(utc_datetime) {
-    // 转为正常的时间格式 年-月-日 时:分:秒
+//Time conversion
+function utc2melbourne(utc_datetime) {
+    // Convert to normal time format year-month-day hour: minutes: seconds
     var T_pos = utc_datetime.indexOf('T');
     var Z_pos = utc_datetime.indexOf('Z');
     var year_month_day = utc_datetime.substr(0,T_pos);
     var hour_minute_second = utc_datetime.substr(T_pos+1,Z_pos-T_pos-1);
     var new_datetime = year_month_day+" "+hour_minute_second; // 2017-03-31 08:02:06
 
-    // 处理成为时间戳
+    // Process timestamp
     timestamp = new Date(Date.parse(new_datetime));
     timestamp = timestamp.getTime();
     timestamp = timestamp/1000;
 
-    // 增加8个小时，北京时间比utc时间多八个时区
-    var unixtimestamp = timestamp+8*60*60;
+    // Add 11 hours, Melbourne (AEDT) is 11 hours ahead of UTC
+    var unixtimestamp = timestamp+11*60*60;
 
-    // 时间戳转为时间
+    // Timestamp to time
     var unixtimestamp = new Date(unixtimestamp*1000);
     var year = 1900 + unixtimestamp.getYear();
     var month = "0" + (unixtimestamp.getMonth() + 1);
@@ -329,7 +329,7 @@ function utc2beijing(utc_datetime) {
         + second.substring(second.length-2, second.length);
 }
 
-// bytes自适应转换到KB,MB,GB
+// Convert bytes to KB, MB, GB
 function formatFileSize(bytes) {
     if (bytes>=1000000000) {bytes=(bytes/1000000000).toFixed(2)+' GB';}
     else if (bytes>=1000000)    {bytes=(bytes/1000000).toFixed(2)+' MB';}
@@ -348,7 +348,7 @@ String.prototype.trim = function (char) {
 };
 
 
-// README.md HEAD.md 支持
+// README.md HEAD.md support
 function markdown(el, data){
     if(window.md == undefined){
         //$.getScript('https://cdn.jsdelivr.net/npm/markdown-it@9.1.0/dist/markdown-it.min.js',function(){
@@ -361,7 +361,7 @@ function markdown(el, data){
     }
 }
 
-// 监听回退事件
+// Listen for fallback events
 window.onpopstate = function(){
     var path = window.location.pathname;
     render(path);

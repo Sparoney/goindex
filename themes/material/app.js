@@ -141,7 +141,7 @@ function list_files(path,files){
                 });
             }
             var ext = p.split('.').pop();
-            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0){
+            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mkv||bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0){
 	            p += "?a=view";
 	            c += " view";
             }
@@ -183,7 +183,7 @@ function file(path){
 		return file_code(path);
 	}
 
-	if("|mp4|".indexOf(`|${ext}|`) >= 0){
+	if("|mp4|webm|mkv|".indexOf(`|${ext}|`) >= 0){
 		return file_video(path);
 	}
 
@@ -245,7 +245,7 @@ function file_code(path){
 	});
 }
 
-// File display mp4
+// File display |mp4|webm|mkv
 function file_video(path){
 	var url = window.location.origin + path;
 	var content = `

@@ -1,7 +1,8 @@
 // Load necessary stylesheet in head
 document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">');
 // Markdown support
-document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@9.1.0/dist/markdown-it.min.js"></script>');
+document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>');
+// Material design
 document.write('<style>.mdui-appbar .mdui-toolbar{height:56px;font-size:1pc}.mdui-toolbar>*{padding:0 6px;margin:0 2px}.mdui-toolbar>i{opacity:.5}.mdui-toolbar>.mdui-typo-headline{padding:0 1pc 0 0}.mdui-toolbar>i{padding:0}.mdui-toolbar>a:hover,a.active,a.mdui-typo-headline{opacity:1}.mdui-container{max-width:980px}.mdui-list-item{transition:none}.mdui-list>.th{background-color:initial}.mdui-list-item>a{width:100%;line-height:3pc}.mdui-list-item{margin:2px 0;padding:0}.mdui-toolbar>a:last-child{opacity:1}@media screen and (max-width:980px){.mdui-list-item .mdui-text-right{display:none}.mdui-container{width:100%!important;margin:0}.mdui-toolbar>.mdui-typo-headline,.mdui-toolbar>a:last-child,.mdui-toolbar>i:first-child{display:block}}</style>');
 // Initialize the page and load the necessary resources
 function init(){
@@ -68,12 +69,15 @@ function list(path){
 	   <li class="mdui-list-item th"> 
 	    <div class="mdui-col-xs-12 mdui-col-sm-7">
 	     File
+	<i class="mdui-icon material-icons icon-sort" data-sort="name" data-order="more">expand_more</i>
 	    </div> 
 	    <div class="mdui-col-sm-3 mdui-text-right">
 	     Modified
+	<i class="mdui-icon material-icons icon-sort" data-sort="modifiedTime" data-order="downward">expand_more</i>
 	    </div> 
 	    <div class="mdui-col-sm-2 mdui-text-right">
 	     Size
+	<i class="mdui-icon material-icons icon-sort" data-sort="size" data-order="downward">expand_more</i>
 	    </div> 
 	    </li> 
 	  </ul> 
@@ -141,7 +145,7 @@ function list_files(path,files){
                 });
             }
             var ext = p.split('.').pop();
-            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mkv||bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0){
+            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|mp3|wav|ogg|m4a|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
 	            p += "?a=view";
 	            c += " view";
             }
@@ -179,32 +183,67 @@ function get_file(path, file, callback){
 function file(path){
 	var name = path.split('/').pop();
 	var ext = name.split('.').pop().toLowerCase().replace(`?a=view`,"");
-	if("|html|php|css|go|java|js|json|txt|sh|md|".indexOf(`|${ext}|`) >= 0){
+	if("|html|php|py|css|go|java|js|json|txt|sh|md|".indexOf(`|${ext}|`) >= 0){
 		return file_code(path);
 	}
 
-	if("|mp4|webm|mkv|".indexOf(`|${ext}|`) >= 0){
+	if("|mp4|webm|".indexOf(`|${ext}|`) >= 0){
 		return file_video(path);
 	}
+	
+	if("|mov|mkv|mpg|mpeg|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+		return file_dpvideo(path);
+		});
+	}
+	
+	if("|flv|f4v|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dpvideo(path);
+			});
+		});
+	}
+	
+	if("|m3u8|ts|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dpvideo(path);
+			});
+		});
+	}
+	
+	if("|m4s|mpd|".indexOf(`|${ext}|`) >= 0){
+		$.getScript('//cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			return file_dpvideo(path);
+			});
+		});
+	}
+	
+	if("|mp3|wav|ogg|m4a|".indexOf(`|${ext}|`) >= 0){
+		return file_audio(path);
+	}
 
-	if("|bmp|jpg|jpeg|png|gif|".indexOf(`|${ext}|`) >= 0){
+	if("|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
 		return file_image(path);
 	}
 }
 
-// File display |html|php|css|go|java|js|json|txt|sh|md|
+// File display |html|php|py|css|go|java|js|json|txt|sh|md|
 function file_code(path){
 	var type = {
 		"html":"html",
 		"php":"php",
+		"py":"python",
 		"css":"css",
 		"go":"golang",
 		"java":"java",
 		"js":"javascript",
 		"json":"json",
-		"txt":"Text",
+		"txt":"text",
 		"sh":"sh",
-		"md":"Markdown",	
+		"md":"markdown",	
 	};
 	var name = path.split('/').pop();
 	var ext = name.split('.').pop();
@@ -219,8 +258,8 @@ function file_code(path){
 </div>
 <a href="${href}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 
-<script src="https://cdn.bootcss.com/ace/1.2.9/ace.js"></script>
-<script src="https://cdn.bootcss.com/ace/1.2.9/ext-language_tools.js"></script>
+<script src="//cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/ace.min.js"></script>
+<script src="//cdn.jsdelivr.net/npm/ace-builds@1.4.8/src-noconflict/ext-language_tools.min.js"></script>
 	`;
 	$('#content').html(content);
 	
@@ -245,7 +284,7 @@ function file_code(path){
 	});
 }
 
-// File display |mp4|webm|mkv
+// File display |mp4|webm|
 function file_video(path){
 	var url = window.location.origin + path;
 	var content = `
@@ -262,7 +301,7 @@ function file_video(path){
 	</div>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">URL</label>
-	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
+	  <textarea class="mdui-textfield-input"><video><source src="${url}"></video></textarea>
 	</div>
 </div>
 <a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
@@ -270,7 +309,69 @@ function file_video(path){
 	$('#content').html(content);
 }
 
-//
+// File display DPlayer |mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|
+function file_dpvideo(path){
+	var url = window.location.origin + path;
+	var content = `
+	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+	<div class="mdui-container-fluid">
+	<br>
+	<div id="dplayer"></div>
+	<br>
+	<!-- Fixed label -->
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">Download</label>
+	  <input class="mdui-textfield-input" type="text" value="${url}"/>
+	</div>
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">HTML 引用</label>
+	  <textarea class="mdui-textfield-input"><video><source src="${url}"></video></textarea>
+	</div>
+	</div>
+	<script>
+	// Initialize the player
+	if (typeof dp == "undefined"){
+	const dp = new DPlayer({
+	container: document.getElementById('dplayer'),
+	lang:'en-us',
+	video: {
+	url: '${url}',
+	},
+	});
+	}
+	</script>
+	<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
+	`;
+	$('#content').html(content);
+}
+
+// File display |mp3|m4a|wav|ogg|
+function file_audio(path){
+	var url = window.location.origin + path;
+	var content = `
+<div class="mdui-container-fluid">
+	<br>
+	<audio class="mdui-center" preload controls>
+	  <source src="${url}"">
+	</audio>
+	<br>
+	<!-- Fixed label -->
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">Download</label>
+	  <input class="mdui-textfield-input" type="text" value="${url}"/>
+	</div>
+	<div class="mdui-textfield">
+	  <label class="mdui-textfield-label">URL</label>
+	  <textarea class="mdui-textfield-input"><audio><source src="${url}"></audio></textarea>
+	</div>
+</div>
+<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
+	`;
+	$('#content').html(content);
+}
+
+
+// Image display
 function file_image(path){
 	var url = window.location.origin + path;
 	var content = `
@@ -331,9 +432,9 @@ function utc2melbourne(utc_datetime) {
 
 // Convert bytes to KB, MB, GB
 function formatFileSize(bytes) {
-    if (bytes>=1000000000) {bytes=(bytes/1000000000).toFixed(2)+' GB';}
-    else if (bytes>=1000000)    {bytes=(bytes/1000000).toFixed(2)+' MB';}
-    else if (bytes>=1000)       {bytes=(bytes/1000).toFixed(2)+' KB';}
+    if (bytes>=1073741824) {bytes=(bytes/1073741824).toFixed(2)+' GB';}
+    else if (bytes>=1048576)    {bytes=(bytes/1048576).toFixed(2)+' MB';}
+    else if (bytes>=1024)       {bytes=(bytes/1024).toFixed(2)+' KB';}
     else if (bytes>1)           {bytes=bytes+' bytes';}
     else if (bytes==1)          {bytes=bytes+' byte';}
     else                        {bytes='';}
@@ -348,10 +449,10 @@ String.prototype.trim = function (char) {
 };
 
 
-// README.md HEAD.md support
+// README.md and HEAD.md support
 function markdown(el, data){
     if(window.md == undefined){
-        //$.getScript('https://cdn.jsdelivr.net/npm/markdown-it@9.1.0/dist/markdown-it.min.js',function(){
+        //$.getScript('https://cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js',function(){
         window.md = window.markdownit();
         markdown(el, data);
         //});

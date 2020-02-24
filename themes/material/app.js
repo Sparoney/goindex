@@ -320,7 +320,8 @@ function file_dpvideo(path){
 	<br>
 	<!-- Fixed label -->
 	<div class="mdui-typo">
-	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" >Microsoft Edge</a> and open this video.
+	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> and open this video. This will usually work for
+	TV Shows. If Microsoft Edge still has no sound or you are watching a movie, copy the Download URL and open it in your preferred video player.
 	<hr/>
 	</div>
 	<div class="mdui-textfield">

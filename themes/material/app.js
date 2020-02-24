@@ -319,6 +319,10 @@ function file_dpvideo(path){
 	<div id="dplayer"></div>
 	<br>
 	<!-- Fixed label -->
+	<div class="mdui-typo">
+	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" >Microsoft Edge</a> and open this video.
+	<hr/>
+	</div>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Download</label>
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>

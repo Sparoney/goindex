@@ -7,9 +7,9 @@ document.write('<style>.mdui-appbar .mdui-toolbar{height:56px;font-size:1pc}.mdu
 // Initialize the page and load the necessary resources
 function init(){
     document.siteName = $('title').html();
-    $('body').addClass("mdui-theme-primary-blue-grey mdui-theme-accent-blue");
+    $('body').addClass("mdui-theme-primary-blue mdui-theme-accent-indigo mdui-theme-layout-dark");
     var html = `
-<header class="mdui-appbar mdui-color-theme"> 
+<header class="mdui-appbar mdui-color-theme-600"> 
    <div id="nav" class="mdui-toolbar mdui-container"> 
    </div> 
 </header>
@@ -145,7 +145,7 @@ function list_files(path,files){
                 });
             }
             var ext = p.split('.').pop();
-            if("|html|php|css|go|java|js|json|txt|sh|md|mp4|webm|mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|mp3|wav|ogg|m4a|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
+            if("|html|php|py|css|go|java|js|json|txt|sh|md|mp4|webm|mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|mp3|wav|ogg|m4a|bmp|jpg|jpeg|png|gif|webp|".indexOf(`|${ext}|`) >= 0){
 	            p += "?a=view";
 	            c += " view";
             }
@@ -324,7 +324,7 @@ function file_dpvideo(path){
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>
 	</div>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">HTML 引用</label>
+	  <label class="mdui-textfield-label">HTML Embed</label>
 	  <textarea class="mdui-textfield-input"><video><source src="${url}"></video></textarea>
 	</div>
 	</div>

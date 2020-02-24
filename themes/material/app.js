@@ -221,7 +221,7 @@ function file(path){
 		});
 	}
 	
-	if("|mp3|wav|ogg|m4a|".indexOf(`|${ext}|`) >= 0){
+	if("|mp3|wav|ogg|m4a|flac|".indexOf(`|${ext}|`) >= 0){
 		return file_audio(path);
 	}
 
@@ -345,7 +345,7 @@ function file_dpvideo(path){
 	$('#content').html(content);
 }
 
-// File display |mp3|m4a|wav|ogg|
+// File display |mp3|m4a|wav|ogg|flac|
 function file_audio(path){
 	var url = window.location.origin + path;
 	var content = `

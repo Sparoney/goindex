@@ -1,6 +1,5 @@
 // Load necessary stylesheet in head
 document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">');
-document.write('<link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet">');
 // Markdown support
 document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>');
 // Material design
@@ -193,14 +192,14 @@ function file(path){
 	}
 	
 	if("|mov|mkv|mpg|mpeg|".indexOf(`|${ext}|`) >= 0){
-		$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
+		$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 		return file_dpvideo(path);
 		});
 	}
 	
 	if("|flv|f4v|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js',function(){
-			$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 			return file_dpvideo(path);
 			});
 		});
@@ -208,7 +207,7 @@ function file(path){
 	
 	if("|m3u8|ts|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js',function(){
-			$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 			return file_dpvideo(path);
 			});
 		});
@@ -216,7 +215,7 @@ function file(path){
 	
 	if("|m4s|mpd|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js',function(){
-			$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
+			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
 			return file_dpvideo(path);
 			});
 		});
@@ -291,7 +290,7 @@ function file_video(path){
 	var content = `
 <div class="mdui-container-fluid">
 	<br>
-	<video class="mdui-video-fluid mdui-center" preload controls data-setup='{}'>
+	<video class="mdui-video-fluid mdui-center" preload controls>
 	  <source src="${url}" type="video/mp4">
 	</video>
 	<br>
@@ -314,11 +313,10 @@ function file_video(path){
 function file_dpvideo(path){
 	var url = window.location.origin + path;
 	var content = `
-<div class="mdui-container-fluid">
+	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
+	<div class="mdui-container-fluid">
 	<br>
-	<video class="mdui-video-fluid mdui-center" preload controls data-setup='{}'>
-	  <source src="${url}">
-	</video>
+	<div id="dplayer"></div>
 	<br>
 	<!-- Fixed label -->
 	<div class="mdui-typo">

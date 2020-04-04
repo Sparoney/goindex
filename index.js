@@ -18,7 +18,7 @@ var html = `
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
-  <script src="//cdn.jsdelivr.net/combine/gh/jquery/jquery@3.2/dist/jquery.min.js,gh/Sparoney/goindex/themes/${authConfig.theme}/app.js"></script>
+  <script src="//cdn.jsdelivr.net/combine/gh/jquery/jquery@3.2/dist/jquery.min.js,gh/Sparoney/goindex@latest/themes/${authConfig.theme}/app.js"></script>
 </head>
 <body>
 </body>
@@ -76,7 +76,7 @@ async function apiRequest(request) {
           var obj = {};
         }
         console.log(password,obj);
-        if(password != obj.password){
+        if(password.replace("\n", "") != obj.password){
           let html = `{"error": {"code": 401,"message": "password error."}}`;
           return new Response(html,option);
         }
@@ -139,8 +139,21 @@ class googleDrive {
 
     // 通过reqeust cache 来缓存
     async list(path){
+      if (gd.cache == undefined) {
+        gd.cache = {};
+      }
+
+      if (gd.cache[path]) {
+        return gd.cache[path];
+      }
+
       let id = await this.findPathId(path);
-      return this._ls(id);
+      var obj = await this._ls(id);
+      if (obj.files && obj.files.length > 1000) {
+            gd.cache[path] = obj;
+      }
+
+      return obj
     }
 
     async password(path){
@@ -169,16 +182,29 @@ class googleDrive {
       if(parent==undefined){
         return null;
       }
-      let url = 'https://www.googleapis.com/drive/v3/files';
+      const files = [];
+      let pageToken;
+      let obj;
       let params = {'includeItemsFromAllDrives':true,'supportsAllDrives':true};
       params.q = `'${parent}' in parents and trashed = false AND name !='.password'`;
       params.orderBy= 'folder,name,modifiedTime desc';
       params.fields = "nextPageToken, files(id, name, mimeType, size , modifiedTime)";
       params.pageSize = 1000;
-      url += '?'+this.enQuery(params);
-      let requestOption = await this.requestOption();
-      let response = await fetch(url, requestOption);
-      let obj = await response.json();
+
+      do {
+        if (pageToken) {
+            params.pageToken = pageToken;
+        }
+        let url = 'https://www.googleapis.com/drive/v3/files';
+        url += '?'+this.enQuery(params);
+        let requestOption = await this.requestOption();
+        let response = await fetch(url, requestOption);
+        obj = await response.json();
+        files.push(...obj.files);
+        pageToken = obj.nextPageToken;
+      } while (pageToken);
+
+      obj.files = files;
       return obj;
     }
 

@@ -1,5 +1,6 @@
 // Load necessary stylesheet in head
 document.write('<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/mdui@0.4.3/dist/css/mdui.min.css">');
+document.write('<link href="https://vjs.zencdn.net/7.7.5/video-js.css" rel="stylesheet">');
 // Markdown support
 document.write('<script src="//cdn.jsdelivr.net/npm/markdown-it@10.0.0/dist/markdown-it.min.js"></script>');
 // Material design
@@ -192,14 +193,14 @@ function file(path){
 	}
 	
 	if("|mov|mkv|mpg|mpeg|".indexOf(`|${ext}|`) >= 0){
-		$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+		$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
 		return file_dpvideo(path);
 		});
 	}
 	
 	if("|flv|f4v|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/flv.js/dist/flv.min.js',function(){
-			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
 			return file_dpvideo(path);
 			});
 		});
@@ -207,7 +208,7 @@ function file(path){
 	
 	if("|m3u8|ts|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/hls.js/dist/hls.min.js',function(){
-			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
 			return file_dpvideo(path);
 			});
 		});
@@ -215,7 +216,7 @@ function file(path){
 	
 	if("|m4s|mpd|".indexOf(`|${ext}|`) >= 0){
 		$.getScript('//cdn.jsdelivr.net/npm/dashjs/dist/dash.all.min.js',function(){
-			$.getScript('//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.js',function(){
+			$.getScript('//vjs.zencdn.net/7.7.5/video.js',function(){
 			return file_dpvideo(path);
 			});
 		});
@@ -290,7 +291,7 @@ function file_video(path){
 	var content = `
 <div class="mdui-container-fluid">
 	<br>
-	<video class="mdui-video-fluid mdui-center" preload controls>
+	<video class="mdui-video-fluid mdui-center" preload controls data-setup='{}'>
 	  <source src="${url}" type="video/mp4">
 	</video>
 	<br>
@@ -313,12 +314,18 @@ function file_video(path){
 function file_dpvideo(path){
 	var url = window.location.origin + path;
 	var content = `
-	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-	<div class="mdui-container-fluid">
+<div class="mdui-container-fluid">
 	<br>
-	<div id="dplayer"></div>
+	<video class="mdui-video-fluid mdui-center" preload controls data-setup='{}'>
+	  <source src="${url}">
+	</video>
 	<br>
 	<!-- Fixed label -->
+	<div class="mdui-typo">
+	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> and open this video. This will usually work for
+	TV Shows. If Microsoft Edge still has no sound or you are watching a movie, copy the Download URL and open it in your preferred video player.
+	<hr/>
+	</div>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Download</label>
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>

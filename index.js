@@ -19,7 +19,7 @@ var html = `
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no"/>
   <title>${authConfig.siteName}</title>
   <script src="//cdn.jsdelivr.net/gh/jquery/jquery@3.2/dist/jquery.min.js"></script>
-  <script src="//cdn.jsdelivr.net/gh/Sparoney/goindex@latest/themes/${authConfig.theme}/app.js">
+  <script src="//cdn.jsdelivr.net/gh/Sparoney/goindex@latest/themes/${authConfig.theme}/app.js"></script>
 </head>
 <body>
 </body>

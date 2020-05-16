@@ -788,10 +788,10 @@ function copyToClipboard(str) {
 function file_video(path) {
     const url = window.location.origin + path;
     let player_items = [{
-            text: 'MXPlayer(Free)',
+            text: 'MXPlayer (Free)',
             href: `intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${path};end`,
         }, {
-            text: 'MXPlayer(Pro)',
+            text: 'MXPlayer (Pro)',
             href: `intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${path};end`,
         }, {
             text: 'nPlayer',
@@ -827,7 +827,7 @@ function file_video(path) {
 	  <input class="mdui-textfield-input" type="text" value="${url}"/>
 	</div>
 	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">HTML Reference address</label>
+	  <label class="mdui-textfield-label">HTML URL</label>
 	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
 	</div>
 </div>
@@ -844,10 +844,10 @@ function file_video(path) {
 function file_dpvideo(path) {
     const url = window.location.origin + path;
     let player_items = [{
-            text: 'MXPlayer(Free)',
+            text: 'MXPlayer (Free)',
             href: `intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${path};end`,
         }, {
-            text: 'MXPlayer(Pro)',
+            text: 'MXPlayer (Pro)',
             href: `intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${path};end`,
         }, {
             text: 'nPlayer',
@@ -874,12 +874,10 @@ function file_dpvideo(path) {
 	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 	<div class="mdui-container-fluid">
 	<br>
-	<video class="mdui-video-fluid mdui-center" preload controls>
-	  <source src="${url}" type="video/mp4">
-	</video>
-	<br>${playBtn}
+	<div id="dplayer"></div>
+	<br>${playBtn}<br>
 	<!-- Fixed label -->
-		<div class="mdui-typo">
+	<div class="mdui-typo">
 	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> or Safari and open this video. This will usually work for
 	AMZN WEB-DLs. If Microsoft Edge still has no sound or you are watching something else, copy the Download URL and open it in your preferred video player.
 	<hr/>

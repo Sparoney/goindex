@@ -12,7 +12,7 @@ if (UI.dark_mode) {
 // Initialize the page and load the necessary resources
 function init() {
     document.siteName = $('title').html();
-    $('body').addClass(`mdui-theme-primary-${UI.main_color} mdui-theme-accent-${UI.accent_color}`);
+    $('body').addClass(`mdui-theme-primary-${UI.main_color} mdui-theme-accent-${UI.accent_color} mdui-theme-layout-dark`);
     var html = `
 <header class="mdui-appbar mdui-color-theme"> 
    <div id="nav" class="mdui-toolbar mdui-container${UI.fluid_navigation_bar ? '-fluid' : ''} ${UI.dark_mode ? 'mdui-text-color-white-text' : ''}">
@@ -231,9 +231,9 @@ function list(path) {
 
     /**
      * Callback after the column list request successfully returns data
-        * The result returned by @param res (object)
-        * @param path the requested path
-        * @param prevReqParams parameters used in request
+        * The result returned by @param res (object)
+        * @param path the requested path
+        * @param prevReqParams parameters used in request
      */
     function successResultCallback(res, path, prevReqParams) {
 
@@ -318,8 +318,8 @@ function list(path) {
 
 /**
  * Append the data of the requested new page to the list
-  * @param path
-  * @param files request result
+  * @param path
+  * @param files request result
  */
 function append_files_to_list(path, files) {
     var $list = $('#list');
@@ -465,9 +465,9 @@ function render_search_result_list() {
 
     /**
      * Callback after successful search request returns data
-        * The result returned by @param res (object)
-        * @param path the requested path
-        * @param prevReqParams parameters used in request
+        * The result returned by @param res (object)
+        * @param path the requested path
+        * @param prevReqParams parameters used in request
      */
     function searchSuccessCallback(res, prevReqParams) {
 
@@ -498,7 +498,7 @@ function render_search_result_list() {
                     if (scrollTop + windowHeight > scrollHeight - (Os.isMobile ? 130 : 80)) {
                         /*
                         When the event of scrolling to the bottom is triggered, if it is already loading at this time, the event is ignored;
-                                         Otherwise, go to loading and occupy the loading lock, indicating that loading is in progress
+                                         Otherwise, go to loading and occupy the loading lock, indicating that loading is in progress
                          */
                         if (window.scroll_status.loading_lock === true) {
                             return;

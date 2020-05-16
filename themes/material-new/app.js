@@ -878,6 +878,7 @@ function file_dpvideo(path) {
 	<br>${playBtn}<br>
 	<!-- Fixed label -->
 	<div class="mdui-typo">
+	<br>
 	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> or Safari and open this video. This will usually work for
 	AMZN WEB-DLs. If Microsoft Edge still has no sound or you are watching something else, copy the Download URL and open it in your preferred video player.
 	<hr/>

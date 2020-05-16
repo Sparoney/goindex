@@ -436,7 +436,7 @@ function render_search_result_list() {
 	  <ul class="mdui-list"> 
 	   <li class="mdui-list-item th"> 
 	    <div class="mdui-col-xs-12 mdui-col-sm-7">
-	     Files
+	     File
 	<i class="mdui-icon material-icons icon-sort" data-sort="name" data-order="more">expand_more</i>
 	    </div> 
 	    <div class="mdui-col-sm-3 mdui-text-right">
@@ -619,13 +619,13 @@ function onSearchResultItemClick(a_ele) {
             dialog.close();
             var href = `/${cur}:${data}${can_preview ? '?a=view' : ''}`;
             dialog = mdui.dialog({
-                    title: '<i class="mdui-icon material-icons">&#xe815;</i>Target path',
+                    title: 'Target path',
                     content: `<a href="${href}">${data}</a>`,
                     history: false,
                     modal: true,
                     closeOnEsc: true,
                     buttons: [{
-                            text: 'turn on',
+                            text: 'View',
                             onClick: function () {
                                 window.location.href = href
                             }
@@ -635,7 +635,7 @@ function onSearchResultItemClick(a_ele) {
                                 window.open(href)
                             }
                         }, {
-                            text: 'cancel'
+                            text: 'Cancel'
                         }
                     ]
                 });
@@ -810,7 +810,7 @@ function file_video(path) {
                    <li class="mdui-menu-item"><a id="copy-link" class="mdui-ripple">Copy Link</a></li>`;
     const playBtn = `
       <button class="mdui-btn mdui-ripple mdui-color-theme-accent" mdui-menu="{target:'#player-items'}">
-        <i class="mdui-icon material-icons">&#xe039;</i>Play from external player<i class="mdui-icon material-icons">&#xe5cf;</i>
+        <i class="mdui-icon material-icons">&#xe039;</i> Play from external player<i class="mdui-icon material-icons">&#xe5cf;</i>
       </button>
       <ul class="mdui-menu" id="player-items">${player_items}</ul>`;
 
@@ -866,7 +866,7 @@ function file_dpvideo(path) {
                    <li class="mdui-menu-item"><a id="copy-link" class="mdui-ripple">Copy Link</a></li>`;
     const playBtn = `
       <button class="mdui-btn mdui-ripple mdui-color-theme-accent" mdui-menu="{target:'#player-items'}">
-        <i class="mdui-icon material-icons">&#xe039;</i>Play from external player<i class="mdui-icon material-icons">&#xe5cf;</i>
+        <i class="mdui-icon material-icons">&#xe039;</i> Play from external player<i class="mdui-icon material-icons">&#xe5cf;</i>
       </button>
       <ul class="mdui-menu" id="player-items">${player_items}</ul>`;
 
@@ -892,8 +892,8 @@ function file_dpvideo(path) {
 	  <label class="mdui-textfield-label">HTML Embed</label>
 	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
 	</div>
-</div>
-<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
+	</div>
+	<script>
 	// Initialize the player
 	if (typeof dp == "undefined"){
 	const dp = new DPlayer({
@@ -907,7 +907,7 @@ function file_dpvideo(path) {
 	</script>
 	<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
 	`;
-    $('#content').html(content);
+	$('#content').html(content);
     $('#copy-link').on('click', () => {
         copyToClipboard(url);
         mdui.snackbar('Copied to clipboard!');

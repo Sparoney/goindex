@@ -55,7 +55,7 @@ function render(path) {
             // "Scroll to the bottom, loading more data" event lock
             loading_lock: false
         };
-        render_search_result_list()
+        render_search_result_list();
     } else if (path.match(reg) || path.substr(-1) == '/') {
         // Used to store the state of some scroll events
         window.scroll_status = {
@@ -163,12 +163,12 @@ function requestListPath(path, params, resultCallback, authErrorCallback) {
         if (res && res.error && res.error.code == '401') {
             // Password verification failed
             if (authErrorCallback)
-                authErrorCallback(path)
+                authErrorCallback(path);
         } else if (res && res.data) {
             if (resultCallback)
-                resultCallback(res, path, p)
+                resultCallback(res, path, p);
         }
-    })
+    });
 }
 
 /**
@@ -186,9 +186,9 @@ function requestSearch(params, resultCallback) {
         var res = jQuery.parseJSON(data);
         if (res && res.data) {
             if (resultCallback)
-                resultCallback(res, p)
+                resultCallback(res, p);
         }
-    })
+    });
 }
 
 // Render file list
@@ -285,16 +285,16 @@ function list(path) {
                         },
                             successResultCallback,
                             // The password is the same as before. No authError
-                            null)
+                            null);
                     }
                 });
-                window.scroll_status.event_bound = true
+                window.scroll_status.event_bound = true;
             }
         }
 
         // After loading successfully and rendering new data successfully, release the loading lock so that you can continue to process the "scroll to bottom" event
         if (window.scroll_status.loading_lock === true) {
-            window.scroll_status.loading_lock = false
+            window.scroll_status.loading_lock = false;
         }
     }
 

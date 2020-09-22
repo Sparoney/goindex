@@ -746,16 +746,22 @@ function file_dpvideo(path) {
 
     const content = `
 	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
-	<div class="mdui-container-fluid">
+	<div class="container">
 	<br>
+	<div class="card">
+	<div class="card-body text-center">
+	<div class="alert alert-danger" id="folderne" role="alert"></div><script>document.getElementById("folderne").innerHTML=decodeURI(this.window.location.href.substring(window.location.href.lastIndexOf('/',window.location.href.lastIndexOf('/')+1))).replace('/','').replace('?a=view','');</script>
+	
 	<div id="dplayer"></div>
 	<br>${playBtn}<br>
+	
 	<!-- Fixed label -->
 	<div class="mdui-typo">
 	<br>
 	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> or Safari and open this video. This will usually work for
 	AMZN WEB-DLs. If Microsoft Edge still has no sound or you are watching something else, copy the Download URL and open it in your preferred video player.
 	<hr/>
+	
 	</div>
 	<div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Download Link</label>
@@ -766,6 +772,7 @@ function file_dpvideo(path) {
 	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
 	</div>
 	</div>
+	
 	<script>
 	// Initialize the player
 	if (typeof dp == "undefined"){
@@ -778,7 +785,7 @@ function file_dpvideo(path) {
 	});
 	}
 	</script>
-	<a href="${url}" class="mdui-fab mdui-fab-fixed mdui-ripple mdui-color-theme-accent"><i class="mdui-icon material-icons">file_download</i></a>
+	 <p class="card-text text-center"><a href="${url}" class="btn btn-primary">Download</a></p><br>
 	`;
 	$('#content').html(content);
     $('#copy-link').on('click', () => {

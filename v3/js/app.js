@@ -625,7 +625,7 @@ function file(path) {
 	}
 
     if ("|mp4|webm|".indexOf(`|${ext}|`) >= 0) {
-        return file_video(path);
+        return file_dpvideo(path);
     }
 
     if ("|mov|mkv|mpg|mpeg|rm|rmvb|mov|wmv|asf|ts|".indexOf(`|${ext}|`) >= 0) {

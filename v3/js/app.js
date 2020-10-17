@@ -719,33 +719,6 @@ function copyToClipboard(str) {
 // File display DPlayer |mov|mkv|mpg|mpeg|flv|f4v|m3u8|ts|m4s|mpd|
 function file_dpvideo(path) {
     const url = window.location.origin + path;
-    let player_items = [{
-            text: 'MXPlayer (Free)',
-            href: `intent:${url}#Intent;package=com.mxtech.videoplayer.ad;S.title=${path};end`,
-        }, {
-            text: 'MXPlayer (Pro)',
-            href: `intent:${url}#Intent;package=com.mxtech.videoplayer.pro;S.title=${path};end`,
-        }, {
-            text: 'nPlayer',
-            href: `nplayer-${url}`,
-        }, {
-            text: 'VLC',
-            href: `vlc://${url}`,
-        }, {
-            text: 'PotPlayer',
-            href: `potplayer://${url}`
-        }
-    ]
-    .map(it => `<li class="mdui-menu-item"><a href="${it.href}" class="mdui-ripple">${it.text}</a></li>`)
-    .join('');
-    player_items += `<li class="mdui-divider"></li>
-                   <li class="mdui-menu-item"><a id="copy-link" class="mdui-ripple">Copy Link</a></li>`;
-    const playBtn = `
-      <button class="mdui-btn mdui-ripple mdui-color-theme-accent" mdui-menu="{target:'#player-items'}">
-        <i class="mdui-icon material-icons">&#xe039;</i> Play from external player<i class="mdui-icon material-icons">&#xe5cf;</i>
-      </button>
-      <ul class="mdui-menu" id="player-items">${player_items}</ul>`;
-
     const content = `
 	<link class="dplayer-css" rel="stylesheet" href="//cdn.jsdelivr.net/npm/dplayer/dist/DPlayer.min.css">
 	<div class="container">
@@ -755,24 +728,13 @@ function file_dpvideo(path) {
 	<div class="alert alert-danger" id="folderne" role="alert"></div><script>document.getElementById("folderne").innerHTML=decodeURI(this.window.location.href.substring(window.location.href.lastIndexOf('/',window.location.href.lastIndexOf('/')+1))).replace('/','').replace('?a=view','');</script>
 	
 	<div id="dplayer"></div>
-	<br>${playBtn}<br>
 	
 	<!-- Fixed label -->
 	<div class="mdui-typo">
 	<br>
-	No Sound? Your browser doesn't support Dolby Digital. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> or Safari and open this video. This will usually work for
-	AMZN WEB-DLs. If Microsoft Edge still has no sound or you are watching something else, copy the Download URL and open it in your preferred video player.
+	No Sound? Your browser doesn't support Dolby audio. Download <a href="https://www.microsoft.com/en-us/edge" target="_blank">Microsoft Edge</a> or Safari and open this video. This will usually work for
+	AMZN WEB-DLs. If Microsoft Edge still has no sound or you are watching something else, copy the URL and open it in your preferred video player.
 	<hr/>
-	
-	</div>
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">Download Link</label>
-	  <input class="mdui-textfield-input" type="text" value="${url}"/>
-	</div>
-	<div class="mdui-textfield">
-	  <label class="mdui-textfield-label">HTML Embed</label>
-	  <textarea class="mdui-textfield-input"><video><source src="${url}" type="video/mp4"></video></textarea>
-	</div>
 	</div>
 	
 	<script>
@@ -788,6 +750,7 @@ function file_dpvideo(path) {
 	}
 	</script>
 	 <p class="card-text text-center"><a href="${url}" class="btn btn-primary">Download</a></p><br>
+	 <p class="card-text text-center"><a id="copy-link" class="btn btn-primary">Copy Link</a></p><br>
 	`;
 	$('#content').html(content);
     $('#copy-link').on('click', () => {
